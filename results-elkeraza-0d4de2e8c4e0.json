@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "results-elkeraza",
+  "private_key_id": "0d4de2e8c4e0d8c0ada71c5f4d5cdd00e6230dda",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC2R6c5+N3afpfy\nx6IKbuctuDteP7I4u6Zg/2XDJ1CePlmBdlQF/UVcF3AbILNYyrKD51Sg6lFiAtDv\nwAa0GM3xYneL1sAxeNMnz2BLVUVVqikf9zTo/lT2CW1YxX/bCkz3Tu/eeyT5Heif\naXDRXnVW2ONGCpfdi4X3zx4+s1IVIDDWSrPES3swDaM1+syJ5QC7ZP7axxjhTMpo\nLTZTm9hwf3p2E5xtxrpm2ZQcFJeo/JTYKHiLFwDjs04tCvbRqA91oszu3QS2t3vB\niO+NbcDafWlVAQHtZ4T/d3L4hv8TZJocAgHh9/7XnAA2aABNDeflGuUoSojSF97A\njQc+FGV5AgMBAAECggEAGzu+XNd1UgEq849nAtcJ/Bcz64NpvbcvhvtxeURE87eO\nCN0kdZafB8DKs4rhsMjr/fAQgVAw44tXKxLODZdNIZzcDo0BvwJ1zdNaaDbvunpH\nVarKAWuKRw4mg6ZSUWgLEsH87YkJf5y71iFbRTSvJFAYOK05flSrqdgMhUKmZ1hc\nxDwbDXc8OMjAgUtOj0k0KPDSY8/ZeBiYxFMiJW5rmhDcRv/c0i87H5kDqR1Pw5x7\nCuvsKpCFh6qN+rC9RB390KNQRtJO5YiXODHHA9rXn6ycajzsncJaqGR+n/r0YQ02\n/HsBooot5coSWYhtcdwoTPpaaBvMvgPWWAoa+nKrzwKBgQDikye1J5OiNxwS99yN\nYCK+bHO1Rgi0RMBYsgffl0C+m1dkt3tQeL1woRGI+AI1z7361WANJfqSa2Ntml9k\nv+HmaIA9LhJstfFhkKbfeNA3CDOkfSoxHqrIcNcY9dZL/HFm/tkO4dWt6f48jtd9\nHWdXygjGFqPdBpp4hM2ZP720awKBgQDN89eE553NVlxfLhvzJMwkrqJYveB3QSFl\nhFDbrpoOuKjNLrBAFgeyxqCmLZo47vpR0Ews8pqDkG2+hovU370W+0z4nh7n9X4X\njlAQHcUYtEEcz/Xn8PLsq7jPVmDykeHF39znMd3vaF5Ryi+8oe2ltg4ZGIWWm+4F\n7lixIf8mqwKBgQDX43ucY1+K25QGhuJCW23/n/sIqPi2PCRC3zAdXlO0yvOU5je7\nz7BCV1cL+bSxbYcKMLJbFOsTBPwyfTuUFjm7f6thoDqyFxMu8dPvb4CGT2xVuWWw\ndBYq80ohYG2W7a1ohEByq8Ec+67iKQEvGAtWXQ3LIdt1SUt6tp/o/BFYjQKBgQC0\naPMVEFPSaOFX2ytOraBKTdQXCpWTwbEAnYy7M9LuLGJqAokQSnwJ5icaCv56+xS6\nEE56XTZvI1iPOotJOYkJla+SZejK5ujCt754r6tU/anAFIfj2tTh73df4NniA1qU\nHIsE11EDhBiDayqwAeUMcVMeNrXm/cbe2TBGUnKRKwKBgFVgBr8738jV9eEEu45F\n5T1FrLDtLBl/X+hzQ1edcQm5O8t2LYRSbP3qeedMeTsJbMjLqXKTG81KATJ/A6lo\nTSOyQogNxZq1WLUXaglUxzYdGhM01XghyvEYwiOAWvhDrKCWmaBt5n5KgLsr40vd\nnz+ctXZhIjUts8fUf16fiWvG\n-----END PRIVATE KEY-----\n",
+  "client_email": "exam-service@results-elkeraza.iam.gserviceaccount.com",
+  "client_id": "101524517075045758051",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/exam-service%40results-elkeraza.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

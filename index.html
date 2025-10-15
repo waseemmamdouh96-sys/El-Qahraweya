@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسابقة القهراوية</title>
+    <link rel="icon" type="image/jpeg" href="cairo.jpg">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('cairo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 20, 0.5);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(42, 42, 42, 0.8);
+            z-index: 100;
+            display: none;
+        }
+
+        .progress-bar-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #d4a574, #e8c79a);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 165, 116, 0.6);
+        }
+
+        .card {
+            background: rgba(25, 25, 30, 0.92);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 
+                        0 0 0 1px rgba(212, 165, 116, 0.1);
+            animation: fadeIn 0.5s ease;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 165, 116, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4a574 0%, #f5d9b8 50%, #d4a574 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(212, 165, 116, 0.3);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e8c79a;
+        }
+
+        .subtitle {
+            color: #a8a8a8;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 15, 20, 0.7);
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #d4a574;
+            background: rgba(15, 15, 20, 0.85);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        input.error {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4a574 0%, #c99963 100%);
+            color: #1a1a1a;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #e8c79a 0%, #d4a574 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(212, 165, 116, 0.2);
+        }
+
+        .question-counter {
+            color: #a8a8a8;
+            font-size: 1rem;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d4a574;
+        }
+
+        .timer.warning {
+            color: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #f0f0f0;
+        }
+
+        .question-image {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .choice {
+            position: relative;
+        }
+
+        .choice input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .choice label {
+            display: block;
+            padding: 16px 20px;
+            background: rgba(15, 15, 20, 0.6);
+            border: 2px solid rgba(212, 165, 116, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .choice input[type="radio"]:checked + label {
+            background: rgba(212, 165, 116, 0.15);
+            border-color: #d4a574;
+            color: #e8c79a;
+            box-shadow: 0 0 15px rgba(212, 165, 116, 0.2);
+        }
+
+        .choice label:hover {
+            border-color: #d4a574;
+            background: rgba(212, 165, 116, 0.08);
+        }
+
+        .choice input[type="radio"]:focus + label {
+            outline: 2px solid #d4a574;
+            outline-offset: 2px;
+        }
+
+        .congrats-screen {
+            text-align: center;
+        }
+
+        .congrats-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .congrats-message {
+            font-size: 1.25rem;
+            color: #a8a8a8;
+            margin-bottom: 30px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.25rem;
+            }
+
+            .question-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .timer {
+                align-self: flex-end;
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #1a1a1a;
+            animation: spin 0.8s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .alert-box {
+            background: rgba(255, 107, 107, 0.12);
+            border: 2px solid #ff6b6b;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #ff9999;
+            text-align: center;
+        }
+
+        .success-box {
+            background: rgba(212, 165, 116, 0.12);
+            border: 2px solid #d4a574;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #e8c79a;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar-container" id="progressBarContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <div class="card" id="timeLockedScreen">
+            <div class="congrats-screen">
+                <div class="congrats-icon">🔒</div>
+                <h2>المسابقة مغلقة</h2>
+                <p class="subtitle">Quiz is Closed</p>
+                <div class="alert-box">
+                    <p>المسابقة متاحة فقط من الساعة 10:00 مساءً إلى 10:30 مساءً</p>
+                    <p style="margin-top: 10px;">The quiz is only available from 10:00 PM to 10:30 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card hidden" id="landingScreen">
+            <div class="header">
+                <h1>مسابقة القهراوية</h1>
+                <p class="subtitle">Cairo Knowledge Quiz</p>
+            </div>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="accessCode">كود الدخول / Access Code</label>
+                    <input type="text" id="accessCode" required placeholder="أدخل كود الدخول">
+                    <div class="error-message" id="codeError">Please enter a valid code</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="candidateName">الاسم / Name</label>
+                    <input type="text" id="candidateName" required autocomplete="name">
+                    <div class="error-message" id="nameError">Please enter your name</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" id="startBtn">ابدأ الاختبار / Start Exam</button>
+            </form>
+        </div>
+
+        <div class="card hidden" id="questionScreen">
+            <div class="question-header">
+                <div class="question-counter" id="questionCounter">Question 1 / 10</div>
+                <div class="timer" id="timer">
+                    <span>⏱</span>
+                    <span id="timeRemaining">10</span>
+                </div>
+            </div>
+            
+            <div class="question-text" id="questionText"></div>
+            <img id="questionImage" class="question-image hidden" alt="Question Image">
+            
+            <div class="choices" id="choices"></div>
+        </div>
+
+        <div class="card hidden" id="congratsScreen">
+            <div class="congrats-screen">
+                <div class="congrats-icon">🎉</div>
+                <h2>تهانينا! تم الانتهاء</h2>
+                <p class="subtitle">Congratulations! You've completed the quiz</p>
+                <div class="success-box" id="saveStatus">جاري حفظ النتيجة... / Saving results...</div>
+                <p class="congrats-message">شكراً لمشاركتك في مسابقة القهراوية!</p>
+                <p class="congrats-message">Thank you for participating in the Cairo Quiz!</p>
+                <p class="congrats-message" style="margin-top: 20px; color: #d4a574; font-weight: 600;">سيتم الإعلان عن النتائج لاحقاً</p>
+                <p class="congrats-message" style="margin-top: 5px;">Results will be announced later</p>
+            </div>
+        </div>
+
+        <div class="card hidden" id="invalidCodeScreen">
+            <div class="congrats-screen">
+                <div class="congrats-icon">⚠️</div>
+                <h2>كود غير صالح</h2>
+                <p class="subtitle">Invalid or Used Code</p>
+                <div class="alert-box" id="codeErrorMessage">هذا الكود غير صالح أو تم استخدامه بالفعل<br>This code is invalid or has already been used</div>
+                <button class="btn btn-primary" onclick="returnToHome()">العودة للبداية / Return to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzOb_DvrqhYwHF_TINjR4aYI4d_pDIUkQr3G6rXkR_J9H-DHj9LknUxnWlzLKzU2wNuOA/exec",
+            QUIZ_START_HOUR: 21,
+            QUIZ_START_MINUTE: 0,
+            QUIZ_END_HOUR: 22,
+            QUIZ_END_MINUTE: 30
+        };
+
+        const QUESTIONS = [
+            {
+                id: 1,
+                text: "الطقس في الكنيسة القبطية الأرثوذكسية هو:",
+                choices: ["مجموعة من العادات القديمة", "أسلوب للتعبير الفني", "وسيلة يعيش بيها الإنسان إيمانه بالفعل والحواس", "مجرد شكليات مظهرية"],
+                correctChoice: 2,
+                timeout: 15
+            },
+            {
+                id: 2,
+                text: "جذور الطقوس الكنسية بدأت من:",
+                choices: ["العصر الروماني", "العهد القديم", "العصور الوسطى", "العهد الجديد فقط"],
+                correctChoice: 1,
+                timeout: 15
+            },
+            {
+                id: 3,
+                text: "الكنيسة بتعتبر الطقوس وسيلة علشان:",
+                choices: ["تملأ وقت القداس", "تنقل الإيمان بطريقة محسوسة", "تزيين الكنيسة", "تدريب الكهنة فقط"],
+                correctChoice: 1,
+                timeout: 15
+            },
+            {
+                id: 4,
+                text: "الذبائح في العهد القديم كانت رمز لإيه في العهد الجديد؟",
+                choices: ["الصوم", "ذبيحة المسيح على الصليب", "المعمودية", "الألحان الكنسية"],
+                correctChoice: 1,
+                timeout: 15
+            },
+            {
+                id: 5,
+                text: "الهدف الأساسي من الطقوس هو:",
+                choices: ["حفظ النظام فقط", "الجمال الخارجي للكنيسة", "توصيل الإنسان لحضور ربنا", "تعليم اللغة القبطية"],
+                correctChoice: 2,
+                timeout: 15
+            },
+            {
+                id: 6,
+                text: "⚽ أكثر لاعب شارك في مباريات دوري الأبطال هو:",
+                choices: ["تشافي", "كريستيانو رونالدو", "بوفون", "مالديني"],
+                correctChoice: 1,
+                timeout: 15
+            },
+            {
+                id: 7,
+                text: "💄 يوضع الـ lipstick على:",
+                choices: ["العيون", "الخدود", "الشفاه", "الحواجب"],
+                correctChoice: 2,
+                timeout: 15
+            },
+            {
+                id: 8,
+                text: "🎬 اعرف الفيلم من القصة: يبدأ الفيلم بلاعب كرة قدم محترف في مصر، لكن عندما كبر لعب كرة القدم بقي متخاذل، وفي يوم من الأيام اكتشفوا أن الرجل هو الحامل ليست الأمرأة.",
+                choices: ["مرجان أحمد مرجان", "عوكل", "حامل اللقب", "على جثتي"],
+                correctChoice: 2,
+                timeout: 15
+            },
+            {
+                id: 9,
+                text: "🎬 اعرف الفيلم من القصة: 4 إخوات حرامية من صغرهم فضلوا يسرقوا لحد ما أخوهم الكبير قالهم هتبطلوا فالـ 3 التلاتة معجبهمش فكملوا هما ووقعوا في مشكلة فراحوا لأخوهم الكبير؟",
+                choices: ["الكنز", "ولاد رزق", "الممر", "الخلية"],
+                correctChoice: 1,
+                timeout: 15
+            },
+            {
+                id: 10,
+                text: "🧠 سؤال ذكاء: شاهد الصورة واختر الإجابة الصحيحة",
+                choices: ["4572", "2527", "3527", "7768","9678","5133"],
+                correctChoice: 1,
+                timeout: 20,
+                image: "Iq.jpg"
+            }
+        ];
+
+        let state = {
+            accessCode: '',
+            candidateName: '',
+            currentQuestionIndex: 0,
+            score: 0,
+            timer: null,
+            timeRemaining: 10,
+            answers: [],
+            isValidating: false
+        };
+
+        const elements = {
+            timeLockedScreen: document.getElementById('timeLockedScreen'),
+            landingScreen: document.getElementById('landingScreen'),
+            questionScreen: document.getElementById('questionScreen'),
+            congratsScreen: document.getElementById('congratsScreen'),
+            invalidCodeScreen: document.getElementById('invalidCodeScreen'),
+            registrationForm: document.getElementById('registrationForm'),
+            progressBarContainer: document.getElementById('progressBarContainer'),
+            progressBar: document.getElementById('progressBar'),
+            questionCounter: document.getElementById('questionCounter'),
+            timer: document.getElementById('timer'),
+            timeRemaining: document.getElementById('timeRemaining'),
+            questionText: document.getElementById('questionText'),
+            questionImage: document.getElementById('questionImage'),
+            choices: document.getElementById('choices'),
+            startBtn: document.getElementById('startBtn'),
+            codeErrorMessage: document.getElementById('codeErrorMessage'),
+            saveStatus: document.getElementById('saveStatus')
+        };
+
+        function checkTimeAccess() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            
+            const startTime = CONFIG.QUIZ_START_HOUR * 60 + CONFIG.QUIZ_START_MINUTE;
+            const endTime = CONFIG.QUIZ_END_HOUR * 60 + CONFIG.QUIZ_END_MINUTE;
+            const currentTime = currentHour * 60 + currentMinute;
+            
+            return (currentTime >= startTime && currentTime <= endTime);
+        }
+
+        function updateScreenVisibility() {
+            if (checkTimeAccess()) {
+                elements.timeLockedScreen.classList.add('hidden');
+                elements.landingScreen.classList.remove('hidden');
+            } else {
+                elements.timeLockedScreen.classList.remove('hidden');
+                elements.landingScreen.classList.add('hidden');
+                elements.questionScreen.classList.add('hidden');
+                elements.congratsScreen.classList.add('hidden');
+                elements.invalidCodeScreen.classList.add('hidden');
+            }
+        }
+
+        async function validateCode(code) {
+            try {
+                const url = `${CONFIG.APPS_SCRIPT_URL}?action=validate&code=${encodeURIComponent(code)}&_t=${Date.now()}`;
+                console.log('Validating code:', code);
+                
+                const response = await fetch(url, { 
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                
+                const text = await response.text();
+                const data = JSON.parse(text);
+                console.log('Validation response:', data);
+                
+                return data;
+            } catch (error) {
+                console.error('Error validating code:', error);
+                return { 
+                    valid: false, 
+                    message: 'خطأ في الاتصال بالخادم<br>Connection error' 
+                };
+            }
+        }
+
+        async function markCodeAsUsed(code) {
+            try {
+                const url = `${CONFIG.APPS_SCRIPT_URL}?action=markUsed&code=${encodeURIComponent(code)}&_t=${Date.now()}`;
+                console.log('Marking code as used:', code);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                
+                const text = await response.text();
+                const data = JSON.parse(text);
+                console.log('Mark used response:', data);
+                
+                return data;
+            } catch (error) {
+                console.error('Error marking code as used:', error);
+                return { success: false };
+            }
+        }
+
+        elements.registrationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (state.isValidating) return;
+            
+            if (!checkTimeAccess()) {
+                alert('المسابقة متاحة فقط من 10:00 مساءً إلى 10:30 مساءً\nThe quiz is only available from 10:00 PM to 10:30 PM');
+                return;
+            }
+            
+            const code = document.getElementById('accessCode').value.trim().toUpperCase();
+            const name = document.getElementById('candidateName').value.trim();
+            
+            let valid = true;
+            
+            if (!code) {
+                document.getElementById('accessCode').classList.add('error');
+                document.getElementById('codeError').classList.add('show');
+                valid = false;
+            } else {
+                document.getElementById('accessCode').classList.remove('error');
+                document.getElementById('codeError').classList.remove('show');
+            }
+            
+            if (!name) {
+                document.getElementById('candidateName').classList.add('error');
+                document.getElementById('nameError').classList.add('show');
+                valid = false;
+            } else {
+                document.getElementById('candidateName').classList.remove('error');
+                document.getElementById('nameError').classList.remove('show');
+            }
+            
+            if (!valid) return;
+
+            state.isValidating = true;
+            elements.startBtn.disabled = true;
+            elements.startBtn.innerHTML = 'جاري التحقق... / Checking... <span class="spinner"></span>';
+
+            const codeValidation = await validateCode(code);
+            
+            if (!codeValidation.valid) {
+                elements.codeErrorMessage.innerHTML = codeValidation.message || 'هذا الكود غير صالح أو تم استخدامه بالفعل<br>This code is invalid or has already been used';
+                elements.landingScreen.classList.add('hidden');
+                elements.invalidCodeScreen.classList.remove('hidden');
+                state.isValidating = false;
+                elements.startBtn.disabled = false;
+                elements.startBtn.innerHTML = 'ابدأ الاختبار / Start Exam';
+                return;
+            }
+
+            state.accessCode = code;
+            state.candidateName = name;
+            state.isValidating = false;
+            
+            startExam();
+        });
+
+        function startExam() {
+            elements.landingScreen.classList.add('hidden');
+            elements.questionScreen.classList.remove('hidden');
+            elements.progressBarContainer.classList.add('active');
+            
+            window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            showQuestion(0);
+        }
+
+        function handleBeforeUnload(e) {
+            if (!elements.congratsScreen.classList.contains('hidden')) return;
+            
+            e.preventDefault();
+            e.returnValue = 'هل أنت متأكد أنك تريد المغادرة؟ / Are you sure you want to leave?';
+            return e.returnValue;
+        }
+
+        function showQuestion(index) {
+            if (index >= QUESTIONS.length) {
+                finishExam();
+                return;
+            }
+            
+            state.currentQuestionIndex = index;
+            const question = QUESTIONS[index];
+            
+            elements.questionCounter.textContent = `Question ${index + 1} / ${QUESTIONS.length}`;
+            elements.questionText.textContent = question.text;
+            
+            if (question.image) {
+                elements.questionImage.src = question.image;
+                elements.questionImage.classList.remove('hidden');
+            } else {
+                elements.questionImage.classList.add('hidden');
+            }
+            
+            updateProgressBar();
+            
+            elements.choices.innerHTML = '';
+            
+            question.choices.forEach((choice, i) => {
+                const choiceDiv = document.createElement('div');
+                choiceDiv.className = 'choice';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'answer';
+                input.id = `choice${i}`;
+                input.value = i;
+                
+                const label = document.createElement('label');
+                label.htmlFor = `choice${i}`;
+                label.textContent = choice;
+                
+                choiceDiv.appendChild(input);
+                choiceDiv.appendChild(label);
+                elements.choices.appendChild(choiceDiv);
+                
+                input.addEventListener('change', () => handleAnswerSelection(i));
+            });
+            
+            startTimer(question.timeout);
+        }
+
+        function startTimer(timeout) {
+            state.timeRemaining = timeout;
+            elements.timeRemaining.textContent = state.timeRemaining;
+            elements.timer.classList.remove('warning');
+            
+            if (state.timer) clearInterval(state.timer);
+            
+            state.timer = setInterval(() => {
+                state.timeRemaining--;
+                elements.timeRemaining.textContent = state.timeRemaining;
+                
+                if (state.timeRemaining <= 5) {
+                    elements.timer.classList.add('warning');
+                }
+                
+                if (state.timeRemaining <= 0) {
+                    clearInterval(state.timer);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function handleAnswerSelection(choiceIndex) {
+            clearInterval(state.timer);
+            
+            const question = QUESTIONS[state.currentQuestionIndex];
+            const isCorrect = choiceIndex === question.correctChoice;
+            
+            state.answers.push({
+                questionId: question.id,
+                selectedChoice: choiceIndex,
+                correct: isCorrect
+            });
+            
+            if (isCorrect) {
+                state.score++;
+            }
+            
+            setTimeout(() => {
+                showQuestion(state.currentQuestionIndex + 1);
+            }, 500);
+        }
+
+        function handleTimeout() {
+            state.answers.push({
+                questionId: QUESTIONS[state.currentQuestionIndex].id,
+                selectedChoice: null,
+                correct: false,
+                timeout: true
+            });
+            
+            showQuestion(state.currentQuestionIndex + 1);
+        }
+
+        async function submitResults() {
+            try {
+                const params = new URLSearchParams({
+                    action: 'submit',
+                    name: state.candidateName,
+                    code: state.accessCode,
+                    score: state.score.toString(),
+                    total: QUESTIONS.length.toString(),
+                    _t: Date.now()
+                });
+                
+                const url = `${CONFIG.APPS_SCRIPT_URL}?${params.toString()}`;
+                console.log('Submitting results...');
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                
+                const text = await response.text();
+                const result = JSON.parse(text);
+                console.log('Submit response:', result);
+                
+                if (result.success) {
+                    await markCodeAsUsed(state.accessCode);
+                    
+                    elements.saveStatus.innerHTML = '✅ تم حفظ النتيجة بنجاح!<br>Results saved successfully!';
+                    elements.saveStatus.classList.remove('alert-box');
+                    elements.saveStatus.classList.add('success-box');
+                    return true;
+                } else {
+                    elements.saveStatus.innerHTML = '⚠️ ' + (result.message || 'فشل حفظ النتيجة<br>Failed to save results');
+                    elements.saveStatus.classList.remove('success-box');
+                    elements.saveStatus.classList.add('alert-box');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error submitting results:', error);
+                elements.saveStatus.innerHTML = '⚠️ فشل حفظ النتيجة / Failed to save results';
+                elements.saveStatus.classList.remove('success-box');
+                elements.saveStatus.classList.add('alert-box');
+                return false;
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((state.currentQuestionIndex + 1) / QUESTIONS.length) * 100;
+            elements.progressBar.style.width = `${progress}%`;
+        }
+
+        async function finishExam() {
+            clearInterval(state.timer);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            
+            elements.questionScreen.classList.add('hidden');
+            elements.congratsScreen.classList.remove('hidden');
+            elements.progressBar.style.width = '100%';
+            
+            await submitResults();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (elements.questionScreen.classList.contains('hidden')) return;
+            
+            const choices = document.querySelectorAll('input[name="answer"]');
+            
+            if (e.key >= '1' && e.key <= '6') {
+                const index = parseInt(e.key) - 1;
+                if (choices[index]) {
+                    choices[index].checked = true;
+                    handleAnswerSelection(index);
+                }
+            }
+        });
+
+        function returnToHome() {
+            document.getElementById('accessCode').value = '';
+            document.getElementById('candidateName').value = '';
+            document.getElementById('accessCode').classList.remove('error');
+            document.getElementById('candidateName').classList.remove('error');
+            document.getElementById('codeError').classList.remove('show');
+            document.getElementById('nameError').classList.remove('show');
+            
+            elements.invalidCodeScreen.classList.add('hidden');
+            elements.congratsScreen.classList.add('hidden');
+            elements.questionScreen.classList.add('hidden');
+            elements.progressBarContainer.classList.remove('active');
+            
+            updateScreenVisibility();
+        }
+
+        updateScreenVisibility();
+        setInterval(updateScreenVisibility, 60000);
+    </script>
+</body>
+</html>
